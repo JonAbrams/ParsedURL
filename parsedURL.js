@@ -3,26 +3,31 @@
  * http://github.com/JonAbrams/parsedURL
  */
 var ParsedURL = function (url) {
-  var remaining = url; // The remainder of the url to be parsed
+  var remaining; // The remainder of the url to be parsed
   var hostname;
   var i, paramArray, paramSplit;
   
-  if (!(/^https?:\/\/[\-a-zA-Z]+\.[a-zA-Z]{2,4}/.test(remaining))) {
-    this.valid = false;
+  if (!url) {
+    if (location) {
+      url = location.href;
+    } else {
+      return;
+    }
+  }
+  
+  remaining = url;
+  
+  this.scheme = remaining.match(/^https?:\/\//);
+  if (this.scheme) {
+    this.scheme = this.scheme[0].replace("://", "");
+      remaining = remaining.replace(this.scheme + "://", "");
+  } else {
+    this.scheme = "";
     return;
   }
   
-  this.scheme = remaining.match(/^https?/)[0];
-  if (!this.scheme) {
-    this.valid = false;
-    return;
-  }
-  
-  remaining = remaining.replace(this.scheme + "://", "");
-  hostname = remaining.replace(/[:?\/].*/, "");
-  if (!hostname) {
-    // TODO: Test if the hostname characters are valid
-    this.valid = false;
+  hostname = remaining.replace(/[:?\/].*/, "").toLowerCase();
+  if (!hostname || hostname.length > 25 || hostname.match(/[^\-.a-z0-9]+/)) {
     return;
   }
   
@@ -80,25 +85,47 @@ ParsedURL.prototype.getHostname = function () {
   var numSubdomains;
   var i;
   
-  if (!this.valid) {
-    return "invalid url";
-  }
-  
-  numSubdomains = this.subdomains.length;
-  for (i = 0; i < numSubdomains; i++) {
-    hostname += this.subdomains[i];
-    if (i < numSubdomains - 1) {
-      hostname += ".";
+  if (this.subdomains) {
+    numSubdomains = this.subdomains.length;
+    for (i = 0; i < numSubdomains; i++) {
+      hostname += this.subdomains[i];
+      if (i < numSubdomains - 1) {
+        hostname += ".";
+      }
     }
   }
+  
   return hostname;
+};
+
+ParsedURL.prototype.parsedPath = function () {
+  var pathList, i;
+  var toBeRemoved = [];
+  
+  if (this.path) {
+    pathList = this.path.split("/");
+    for (i = 0; i < pathList.length; i++) {
+      if (pathList[i] === "") {
+        toBeRemoved.push(i);
+      }
+    }
+    for (i = toBeRemoved.length - 1; i >= 0; i--) {
+      pathList.splice(toBeRemoved[i], 1);
+    }
+  }
+  
+  return pathList || [];
+};
+
+ParsedURL.prototype.isValid = function () {
+  return this.scheme && this.subdomains && this.subdomains.length > 0;
 };
 
 ParsedURL.prototype.toString = function () {
   var paramKey;
   var url = this.scheme + "://";
   
-  if (!this.valid) {
+  if (!this.isValid()) {
     return "invalid url";
   }
   
@@ -124,4 +151,3 @@ ParsedURL.prototype.toString = function () {
   }
   return url;
 };
-
