@@ -26,18 +26,12 @@ var ParsedURL = function (url) {
     return;
   }
   
-  hostname = remaining.replace(/[:?\/].*/, "").toLowerCase();
-  if (!hostname || hostname.length > 25 || hostname.match(/[^\-.a-z0-9]+/)) {
+  this.hostname = remaining.replace(/[:?\/].*/, "").toLowerCase();
+  if (!this.hostname || this.hostname.length > 25 || this.hostname.match(/[^\-.a-z0-9]+/)) {
     return;
   }
   
-  this.subdomains = hostname.split(".");
-  if (this.subdomains.length < 2) {
-    this.valid = false;
-    return;
-  }
-  
-  remaining = remaining.replace(hostname, "");
+  remaining = remaining.replace(this.hostname, "");
   this.port = remaining.match(/^:\d+/) || "";
   if (this.port) {
     this.port = parseInt(this.port[0].slice(1), 10);
@@ -117,8 +111,13 @@ ParsedURL.prototype.parsedPath = function () {
   return pathList || [];
 };
 
+ParsedURL.prototype.getSubdomains = function () {
+  var subdomains = this.hostname.split(".");
+  return subdomains;
+};
+
 ParsedURL.prototype.isValid = function () {
-  return this.scheme && this.subdomains && this.subdomains.length > 0;
+  return this.scheme && this.hostname;
 };
 
 ParsedURL.prototype.toString = function () {
@@ -129,7 +128,7 @@ ParsedURL.prototype.toString = function () {
     return "invalid url";
   }
   
-  url += this.getHostname();
+  url += this.hostname;
   
   if (this.port) {
     url += ":" + this.port;
