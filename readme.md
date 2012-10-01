@@ -8,7 +8,7 @@ It's especially helpful when you want to easily change a URL's components such a
 
 Just download and include parsedURL.js with your web page:
 
-    <script src="/js/parsedURL.js"></script>
+    <script src="/js/ParsedURL.js"></script>
 
 Then when you have a URL you need to parse just create a new ParsedURL object:
 
