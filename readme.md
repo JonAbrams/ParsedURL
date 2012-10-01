@@ -6,7 +6,7 @@ It's especially helpful when you want to easily change a URL's components such a
 
 # How to use it
 
-Just include download and include parsedURL.js with your web page:
+Just download and include parsedURL.js with your web page:
 
     <script src="/js/parsedURL.js"></script>
 
