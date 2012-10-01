@@ -5,8 +5,9 @@
 var ParsedURL = function (url) {
   var remaining; // The remainder of the url to be parsed
   var hostname;
-  var i, paramArray, paramSplit;
-  var paramMatches, paramsString;
+  var i;
+  var hashMatch, schemeMatch;
+  var paramArray, paramSplit, paramMatches, paramsString;
   
   if (!url) {
     if (location) {
@@ -18,12 +19,11 @@ var ParsedURL = function (url) {
   
   remaining = url;
   
-  this.scheme = remaining.match(/^https?:\/\//);
-  if (this.scheme) {
-    this.scheme = this.scheme[0].replace("://", "");
+  schemeMatch = remaining.match(/^https?:\/\//);
+  if (schemeMatch) {
+    this.scheme = schemeMatch[0].replace("://", "");
       remaining = remaining.replace(this.scheme + "://", "");
   } else {
-    this.scheme = "";
     return;
   }
   
@@ -41,9 +41,9 @@ var ParsedURL = function (url) {
   
   this.path = remaining;
   if (this.path) {
-    this.hash = this.path.match(/#.+/) || "";
-    if (this.hash) {
-      this.hash = this.hash[0];
+    hashMatch = this.path.match(/#.+/) || "";
+    if (hashMatch) {
+      this.hash = hashMatch[0];
       this.path = this.path.replace(this.hash, "");
       this.hash = decodeURIComponent(this.hash.replace("#", ""));
     }
