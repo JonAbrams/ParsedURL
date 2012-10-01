@@ -6,6 +6,7 @@ var ParsedURL = function (url) {
   var remaining; // The remainder of the url to be parsed
   var hostname;
   var i, paramArray, paramSplit;
+  var paramMatches, paramsString;
   
   if (!url) {
     if (location) {
@@ -47,13 +48,13 @@ var ParsedURL = function (url) {
       this.hash = decodeURIComponent(this.hash.replace("#", ""));
     }
     
-    this.params = this.path.match(/\?.+/);
-    this.params = (this.params) ? this.params[0].replace("?", "") : "";
+    paramMatch = this.path.match(/\?.*/);
+    paramsString = (paramMatch) ? paramMatch[0].replace("?", "") : "";
 
-    if (this.params) {
-      this.path = this.path.replace("?" + this.params, "");
+    if (paramsString) {
+      this.path = this.path.replace("?" + paramsString, "");
     
-      paramArray = this.params.split("&");
+      paramArray = paramsString.split("&");
       this.params = {};
       for (i = 0; i < paramArray.length; i++) {
         if (paramArray[i]) {
@@ -70,8 +71,6 @@ var ParsedURL = function (url) {
     this.hash = "";
     this.params = {};
   }
-    
-  this.valid = true;
 };
   
 ParsedURL.prototype.getHostname = function () {
@@ -117,7 +116,7 @@ ParsedURL.prototype.getSubdomains = function () {
 };
 
 ParsedURL.prototype.isValid = function () {
-  return this.scheme && this.hostname;
+  return Boolean(this.scheme && this.hostname);
 };
 
 ParsedURL.prototype.toString = function () {
