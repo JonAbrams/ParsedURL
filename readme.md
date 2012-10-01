@@ -116,7 +116,7 @@ Outputs:
 
     searchbox
 
-## Some tests
+## Demonstration/Tests
 
 [Here's a jsbin](http://jsbin.com/anabuy/14/edit) using Angluar.js to ouput the components from a bunch of URL's.
 
