@@ -118,7 +118,7 @@ Outputs:
 
 ## Some tests
 
-[Here's a jsbin](http://jsbin.com/anabuy/12/edit) using Angluar.js to ouput the components from a bunch of URL's.
+[Here's a jsbin](http://jsbin.com/anabuy/14/edit) using Angluar.js to ouput the components from a bunch of URL's.
 
 ## License
 
