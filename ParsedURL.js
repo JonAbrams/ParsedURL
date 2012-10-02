@@ -28,7 +28,7 @@ var ParsedURL = function (url) {
   }
   
   this.hostname = remaining.replace(/[:?\/].*/, "").toLowerCase();
-  if (!this.hostname || this.hostname.length > 25 || this.hostname.match(/[^\-.a-z0-9]+/)) {
+  if (!this.hostname || this.hostname.match(/[^\-.a-z0-9]+/)) {
     return;
   }
   
