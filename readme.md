@@ -19,7 +19,7 @@ Then when you have a URL you need to parse just create a new ParsedURL object:
 
 You can always get the URL back as a string by asking for it:
 
-    var url = purl.toString();
+    var newUrl = purl.toString();
     // newUrl is now "https://a.complex-url.com:8080/users/jon/messages?q=cake&when=recent#searchbox"
     
 or by using type coercion:
@@ -43,7 +43,7 @@ If you want to change the hostname (or scheme), just set it:
 
 ### Port
 
-You can get/set the port as you would the hostname, but not that it will be a number, not a string.
+You can get/set the port as you would the hostname, but note that it will be a number, not a string.
 
 For example:
 
@@ -59,11 +59,11 @@ Outputs:
 
 ### URL path
 
-The URL's path can be be accesseded or changed the same way you would the hostname:
+The URL's path can be be accessed or changed the same way you would the hostname:
 
     var path = purl.path;
     console.log(path);
-    purl.path = path.replace("jon", "time");
+    purl.path = path.replace("jon", "tim");
     console.log(purl.toString());
 
 Outputs:
