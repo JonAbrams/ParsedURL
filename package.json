@@ -1,0 +1,25 @@
+{
+  "name": "parsedurl",
+  "version": "1.0.0",
+  "description": "A simple JavaScript class/library for parsing/manipulating http URL's.",
+  "main": "ParsedURL.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonAbrams/ParsedURL.git"
+  },
+  "keywords": [
+    "url",
+    "parsing",
+    "url",
+    "parsing"
+  ],
+  "author": "Jon Abrams (https://twitter.com/JonathanAbrams)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonAbrams/ParsedURL/issues"
+  },
+  "homepage": "https://github.com/JonAbrams/ParsedURL#readme"
+}

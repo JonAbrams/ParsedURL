@@ -10,6 +10,10 @@ Just download and include parsedURL.js with your web page:
 
     <script src="/js/ParsedURL.js"></script>
 
+or install via npm:
+
+    npm install parsedurl
+
 Then when you have a URL you need to parse just create a new ParsedURL object:
 
     var url = "https://a.complex-url.com:8080/users/jon/messages?q=cake&when=recent#searchbox"";
@@ -21,7 +25,7 @@ You can always get the URL back as a string by asking for it:
 
     var newUrl = purl.toString();
     // newUrl is now "https://a.complex-url.com:8080/users/jon/messages?q=cake&when=recent#searchbox"
-    
+
 or by using type coercion:
 
     var newUrl = "" + purl;
@@ -54,7 +58,7 @@ For example:
 Outputs:
 
     https://a.complex-url.com:8080/users/jon/messages?q=pie&when=recent#searchbox
-    
+
     https://a.complex-url.com:8081/users/jon/messages?q=pie&when=recent#searchbox
 
 ### URL path
@@ -94,17 +98,17 @@ For example:
     for (var paramName in purl.params) {
       console.log(paramName + " = " + purl.params[paramName]);
     }
-    
+
     // Change the q parameter from "cake" to "pie"
     purl.params.q = "pie";
     console.log(purl.toString())
- 
+
 Prints out:
 
     q = cake
     when = recent
     https://a.complex-url.com:8080/users/jon/messages?q=pie&when=recent#searchbox
-    
+
 ### Hash
 
 You can get/set the way you would guess by now:

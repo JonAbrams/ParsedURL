@@ -8,7 +8,7 @@ var ParsedURL = function (url) {
   var i;
   var hashMatch, schemeMatch;
   var paramArray, paramSplit, paramMatches, paramsString;
-  
+
   if (!url) {
     if (location) {
       url = location.href;
@@ -16,9 +16,9 @@ var ParsedURL = function (url) {
       return;
     }
   }
-  
+
   remaining = url;
-  
+
   schemeMatch = remaining.match(/^https?:\/\//);
   if (schemeMatch) {
     this.scheme = schemeMatch[0].replace("://", "");
@@ -26,19 +26,19 @@ var ParsedURL = function (url) {
   } else {
     return;
   }
-  
+
   this.hostname = remaining.replace(/[:?\/].*/, "").toLowerCase();
   if (!this.hostname || this.hostname.match(/[^\-.a-z0-9]+/)) {
     return;
   }
-  
+
   remaining = remaining.replace(this.hostname, "");
   this.port = remaining.match(/^:\d+/) || "";
   if (this.port) {
     this.port = parseInt(this.port[0].slice(1), 10);
     remaining = remaining.replace(":"+this.port, "");
   }
-  
+
   this.path = remaining;
   if (this.path) {
     hashMatch = this.path.match(/#.+/) || "";
@@ -47,19 +47,19 @@ var ParsedURL = function (url) {
       this.path = this.path.replace(this.hash, "");
       this.hash = decodeURIComponent(this.hash.replace("#", ""));
     }
-    
+
     paramMatch = this.path.match(/\?.*/);
     paramsString = (paramMatch) ? paramMatch[0].replace("?", "") : "";
 
     if (paramsString) {
       this.path = this.path.replace("?" + paramsString, "");
-    
+
       paramArray = paramsString.split("&");
       this.params = {};
       for (i = 0; i < paramArray.length; i++) {
         if (paramArray[i]) {
           paramSplit = paramArray[i].split("=");
-        
+
           this.params[paramSplit[0]] = paramSplit[1] || "";
           this.params[paramSplit[0]] = decodeURIComponent(this.params[paramSplit[0]].replace("+", " "));
         }
@@ -72,12 +72,12 @@ var ParsedURL = function (url) {
     this.params = {};
   }
 };
-  
+
 ParsedURL.prototype.getHostname = function () {
   var hostname = "";
   var numSubdomains;
   var i;
-  
+
   if (this.subdomains) {
     numSubdomains = this.subdomains.length;
     for (i = 0; i < numSubdomains; i++) {
@@ -87,14 +87,14 @@ ParsedURL.prototype.getHostname = function () {
       }
     }
   }
-  
+
   return hostname;
 };
 
 ParsedURL.prototype.parsedPath = function () {
   var pathList, i;
   var toBeRemoved = [];
-  
+
   if (this.path) {
     pathList = this.path.split("/");
     for (i = 0; i < pathList.length; i++) {
@@ -106,7 +106,7 @@ ParsedURL.prototype.parsedPath = function () {
       pathList.splice(toBeRemoved[i], 1);
     }
   }
-  
+
   return pathList || [];
 };
 
@@ -122,17 +122,17 @@ ParsedURL.prototype.isValid = function () {
 ParsedURL.prototype.toString = function () {
   var paramKey;
   var url = this.scheme + "://";
-  
+
   if (!this.isValid()) {
     return "invalid url";
   }
-  
+
   url += this.hostname;
-  
+
   if (this.port) {
     url += ":" + this.port;
   }
-  
+
   url += this.path;
   if (this.params) {
     url += "?";
@@ -143,9 +143,13 @@ ParsedURL.prototype.toString = function () {
     }
     url = url.slice(0, url.length - 1);
   }
-  
+
   if (this.hash) {
     url += "#" + encodeURIComponent(this.hash);
   }
   return url;
 };
+
+if (typeof module !== 'undefined') {
+  module.exports = ParsedURL;
+}
