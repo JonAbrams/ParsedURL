@@ -14,6 +14,10 @@ or install via npm:
 
     npm install parsedurl
 
+When using Node, in your app:
+
+    var ParseURL = require('parsedurl');
+
 Then when you have a URL you need to parse just create a new ParsedURL object:
 
     var url = "https://a.complex-url.com:8080/users/jon/messages?q=cake&when=recent#searchbox"";
